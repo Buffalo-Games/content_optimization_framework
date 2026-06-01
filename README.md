@@ -12,7 +12,7 @@ Internal tool for Buffalo Games / EastPoint Sports marketing and digital teams. 
 
 **SharePoint:** Upload `index.html` to a SharePoint document library. Embed via an Embed web part using the SharePoint file URL.
 
-**GitHub Pages:** Enable GitHub Pages in repo Settings → Pages → Deploy from branch (main, /root). The tool will be live at `https://[org].github.io/[repo-name]/`.
+**GitHub Pages:** Live at **https://buffalo-games.github.io/content_optimization_framework/**
 
 **Local:** Open `index.html` directly in any browser. No server required.
 

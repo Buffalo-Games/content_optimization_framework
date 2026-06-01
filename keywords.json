@@ -3,7 +3,8 @@
     "version": "1.0",
     "updated": "2026-06-01",
     "source": "Seeded — update with Helium10 / BigQuery exports",
-    "api_endpoint": null
+    "api_endpoint": null,
+    "live_url": "https://buffalo-games.github.io/content_optimization_framework/"
   },
   "markets": {
     "puzzles": [
