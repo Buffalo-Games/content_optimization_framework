@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHC Content Framework Tool</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface-2: #f8f9fb;
+    --border: #e2e5ea;
+    --border-light: #eef0f4;
+    --text-primary: #1a1d23;
+    --text-secondary: #5a6070;
+    --text-muted: #9ba3b0;
+    --accent: #2563eb;
+    --accent-light: #eff4ff;
+    --accent-hover: #1d4ed8;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --yellow: #ca8a04;
+    --yellow-light: #fefce8;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --orange: #ea580c;
+    --orange-light: #fff7ed;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --radius: 8px;
+    --radius-sm: 5px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: var(--bg);
+    min-height: 100vh;
+  }
+  .app-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .app-header-left { display: flex; align-items: center; gap: 10px; }
+  .app-header-logo {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 15px;
+  }
+  .app-header-title { font-weight: 700; font-size: 15px; color: var(--text-primary); letter-spacing: -0.01em; }
+  .app-header-right { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+  .header-badge {
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2px 10px; font-size: 11.5px; color: var(--text-secondary);
+  }
+  .tab-nav {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 24px; display: flex; gap: 2px; overflow-x: auto;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 13px 16px 11px; border: none; background: none;
+    cursor: pointer; font-size: 13.5px; font-weight: 500; color: var(--text-secondary);
+    border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover { color: var(--text-primary); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-btn .ti { font-size: 16px; }
+  .tab-content { display: none; padding: 24px; max-width: 900px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px;
+  }
+  .card-header {
+    padding: 16px 20px 14px; border-bottom: 1px solid var(--border-light);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 7px; }
+  .card-title .ti { color: var(--accent); font-size: 17px; }
+  .card-body { padding: 20px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  }
+  .pill-blue { background: var(--accent-light); color: var(--accent); }
+  .pill-green { background: var(--green-light); color: var(--green); }
+  .pill-yellow { background: var(--yellow-light); color: var(--yellow); }
+  .pill-red { background: var(--red-light); color: var(--red); }
+  .pill-purple { background: var(--purple-light); color: var(--purple); }
+  .pill-gray { background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border); }
+  .pill-orange { background: var(--orange-light); color: var(--orange); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: var(--radius-sm); border: 1px solid transparent;
+    cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; text-decoration: none;
+  }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .btn-outline { background: white; color: var(--text-primary); border-color: var(--border); }
+  .btn-outline:hover { background: var(--surface-2); border-color: #c8cdd5; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
+  .form-hint { font-size: 11.5px; color: var(--text-muted); margin-bottom: 6px; }
+  textarea, input[type="text"] {
+    width: 100%; padding: 9px 12px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    font-size: 13px; font-family: inherit; color: var(--text-primary);
+    background: var(--surface); transition: border-color 0.15s; outline: none; resize: vertical;
+  }
+  textarea:focus, input[type="text"]:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  .field-row { margin-bottom: 18px; }
+  .field-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; gap: 8px; }
+  .char-count { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .char-ok { color: var(--green); }
+  .char-warn { color: var(--yellow); }
+  .char-over { color: var(--red); }
+  .format-note { font-size: 11.5px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .dot-green { background: var(--green); }
+  .dot-yellow { background: var(--yellow); }
+  .dot-red { background: var(--red); }
+  .dot-gray { background: var(--text-muted); }
+  .preflight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .preflight-item {
+    display: flex; align-items: center; gap: 8px; padding: 9px 12px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--surface-2); font-size: 12.5px;
+  }
+  .preflight-item.pass { border-color: #bbf7d0; background: var(--green-light); }
+  .preflight-item.fail { border-color: #fecaca; background: var(--red-light); }
+  .preflight-label { flex: 1; }
+  .score-bar-wrap { background: var(--border); border-radius: 99px; height: 8px; overflow: hidden; margin: 6px 0; }
+  .score-bar { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+  .score-display { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+  .score-number { font-size: 28px; font-weight: 800; }
+  .score-label { font-size: 13px; color: var(--text-secondary); }
+  .product-type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px; }
+  .product-type-card {
+    border: 2px solid var(--border); border-radius: var(--radius);
+    padding: 16px; cursor: pointer; transition: all 0.15s;
+    text-align: center; background: var(--surface);
+  }
+  .product-type-card:hover { border-color: var(--accent); background: var(--accent-light); }
+  .product-type-card.selected { border-color: var(--accent); background: var(--accent-light); }
+  .product-type-card .type-icon { font-size: 28px; margin-bottom: 8px; color: var(--accent); }
+  .product-type-card .type-name { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .product-type-card .type-desc { font-size: 12px; color: var(--text-secondary); }
+  .wizard-step {
+    display: flex; gap: 14px; margin-bottom: 20px;
+    padding-bottom: 20px; border-bottom: 1px solid var(--border-light);
+  }
+  .wizard-step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: var(--text-secondary); }
+  .step-desc ul { padding-left: 16px; margin-top: 4px; }
+  .step-desc li { margin-bottom: 3px; }
+  .change-type-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .change-chip {
+    padding: 6px 14px; border: 1.5px solid var(--border); border-radius: 20px;
+    cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-secondary);
+    background: var(--surface); transition: all 0.15s;
+  }
+  .change-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .change-chip.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .guidance-box { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; background: var(--surface-2); }
+  .guidance-box.blue { border-color: #bfdbfe; background: var(--accent-light); }
+  .guidance-box.green { border-color: #bbf7d0; background: var(--green-light); }
+  .guidance-box.orange { border-color: #fed7aa; background: var(--orange-light); }
+  .guidance-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .guidance-box ul { padding-left: 16px; }
+  .guidance-box li { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
+  .term-bank-controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .term-search { flex: 1; min-width: 180px; }
+  .term-search input {
+    padding: 7px 12px 7px 34px; resize: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ba3b0' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: 10px center;
+  }
+  .market-filter { display: flex; flex-wrap: wrap; gap: 6px; }
+  .market-btn {
+    padding: 5px 12px; border: 1.5px solid var(--border); border-radius: 20px;
+    cursor: pointer; font-size: 12.5px; font-weight: 500; color: var(--text-secondary);
+    background: var(--surface); transition: all 0.15s;
+  }
+  .market-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .market-btn.active { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .term-grid { display: flex; flex-wrap: wrap; gap: 7px; min-height: 60px; }
+  .term-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 11px; border: 1px solid var(--border); border-radius: 6px;
+    background: var(--surface); cursor: pointer; font-size: 12.5px;
+    color: var(--text-primary); transition: all 0.12s; user-select: none;
+  }
+  .term-chip:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .term-chip.copied { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .term-chip .cat-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    padding: 1px 5px; border-radius: 3px; background: var(--border-light); color: var(--text-muted);
+  }
+  .term-chip .vol-badge { font-size: 10.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .data-source-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 500; }
+  .ds-live { background: var(--green-light); color: var(--green); }
+  .ds-seed { background: var(--yellow-light); color: var(--yellow); }
+  .empty-state { text-align: center; padding: 32px 16px; color: var(--text-muted); font-size: 13px; }
+  .empty-state .ti { font-size: 32px; display: block; margin-bottom: 8px; opacity: 0.4; }
+  .wf-step { display: flex; gap: 16px; margin-bottom: 0; position: relative; }
+  .wf-left { display: flex; flex-direction: column; align-items: center; width: 36px; flex-shrink: 0; }
+  .wf-circle {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; flex-shrink: 0;
+  }
+  .wf-circle.active { background: var(--accent); color: white; }
+  .wf-circle.future { background: var(--border); color: var(--text-muted); }
+  .wf-line { width: 2px; flex: 1; min-height: 24px; background: var(--border); margin: 4px 0; }
+  .wf-body { flex: 1; padding-bottom: 24px; }
+  .wf-step:last-child .wf-body { padding-bottom: 0; }
+  .wf-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .wf-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+  .wf-notes { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; }
+  .wf-notes ul { padding-left: 16px; }
+  .wf-notes li { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 3px; }
+  .future-state-note {
+    border-left: 3px solid var(--yellow); background: var(--yellow-light);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 10px 14px; font-size: 12.5px; color: var(--text-secondary); margin-top: 8px;
+  }
+  .quiz-progress { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
+  .quiz-progress-bar { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.3s ease; }
+  .quiz-question { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option {
+    padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 13.5px; transition: all 0.15s; background: var(--surface);
+  }
+  .quiz-option:hover:not(.disabled) { border-color: var(--accent); background: var(--accent-light); }
+  .quiz-option.correct { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 500; }
+  .quiz-option.incorrect { border-color: var(--red); background: var(--red-light); color: var(--red); }
+  .quiz-option.disabled { cursor: default; }
+  .quiz-feedback { margin-top: 12px; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: var(--green-light); color: var(--green); border: 1px solid #bbf7d0; }
+  .quiz-feedback.incorrect { background: var(--red-light); color: var(--red); border: 1px solid #fecaca; }
+  .quiz-nav { display: flex; justify-content: flex-end; align-items: center; margin-top: 16px; }
+  .quiz-counter { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .quiz-result { text-align: center; padding: 16px 0; }
+  .result-score { font-size: 56px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .result-label { font-size: 18px; font-weight: 600; color: var(--text-primary); margin: 8px 0 4px; }
+  .result-msg { font-size: 14px; color: var(--text-secondary); max-width: 400px; margin: 0 auto 20px; }
+  .inline-alert { padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; display: flex; align-items: flex-start; gap: 8px; }
+  .inline-alert.info { background: var(--accent-light); color: var(--accent); border: 1px solid #bfdbfe; }
+  .inline-alert .ti { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-12 { margin-bottom: 12px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mt-16 { margin-top: 16px; }
+  .text-secondary { color: var(--text-secondary); }
+  .text-muted { color: var(--text-muted); }
+  .text-sm { font-size: 12.5px; }
+  .hidden { display: none !important; }
+  #toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--text-primary); color: white;
+    padding: 10px 18px; border-radius: var(--radius); font-size: 13px; font-weight: 500;
+    box-shadow: var(--shadow-md); opacity: 0; transform: translateY(8px);
+    transition: all 0.2s; z-index: 999; pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-header-left">
+    <div class="app-header-logo"><i class="ti ti-tool"></i></div>
+    <span class="app-header-title">BHC Content Framework</span>
+  </div>
+  <div class="app-header-right">
+    <span class="header-badge" id="header-version">v1.0</span>
+    <span class="header-badge" id="header-updated">Updated 2026-06-01</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('intake', this)"><i class="ti ti-list-check"></i> Intake Wizard</button>
+  <button class="tab-btn" onclick="switchTab('validator', this)"><i class="ti ti-checks"></i> Field Validator</button>
+  <button class="tab-btn" onclick="switchTab('terms', this)"><i class="ti ti-tag"></i> Term Bank</button>
+  <button class="tab-btn" onclick="switchTab('workflow', this)"><i class="ti ti-git-branch"></i> Workflow</button>
+  <button class="tab-btn" onclick="switchTab('quiz', this)"><i class="ti ti-school"></i> Knowledge Check</button>
+</nav>
+
+<!-- TAB 1: INTAKE WIZARD -->
+<div id="tab-intake" class="tab-content active">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-wand"></i> Product Type Intake Wizard</div>
+    </div>
+    <div class="card-body">
+      <p class="text-secondary mb-12" style="font-size:13px;">Select the product type to see a tailored workflow and content guidance.</p>
+      <div class="product-type-grid">
+        <div class="product-type-card" id="pt-new" onclick="selectProductType('new')">
+          <div class="type-icon"><i class="ti ti-sparkles"></i></div>
+          <div class="type-name">New Item</div>
+          <div class="type-desc">Brand-new SKU entering the catalog for the first time</div>
+        </div>
+        <div class="product-type-card" id="pt-ext" onclick="selectProductType('extension')">
+          <div class="type-icon"><i class="ti ti-copy"></i></div>
+          <div class="type-name">Extension / Variant</div>
+          <div class="type-desc">Variation of an existing product (color, count, pack, etc.)</div>
+        </div>
+        <div class="product-type-card" id="pt-dig" onclick="selectProductType('digital')">
+          <div class="type-icon"><i class="ti ti-device-laptop"></i></div>
+          <div class="type-name">Digital / eContent</div>
+          <div class="type-desc">Syndigo or retailer digital content update for an existing item</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="wizard-new" class="card hidden">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-sparkles"></i> New Item — 6-Step Content Workflow</div>
+      <span class="pill pill-blue">New Item</span>
+    </div>
+    <div class="card-body">
+      <div class="wizard-step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Gather product inputs</div>
+          <div class="step-desc">Collect everything the AI needs before opening a prompt window. Missing inputs produce generic output.
+            <ul>
+              <li>Product name, SKU, UPC, item dimensions, weight</li>
+              <li>Piece count, materials, age range, player count</li>
+              <li>Key feature differentiators (die cut, foil, licensed art, etc.)</li>
+              <li>Target audience and primary occasion / use case</li>
+              <li>3 to 5 seed keywords from the Term Bank for this market</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Generate Amazon Title + Bullets with AI</div>
+          <div class="step-desc">Paste your inputs into the BHC AI prompt template. Review AI output against the 12 dimensions.
+            <ul>
+              <li>Title: max 200 characters, lead keyword in first 60 chars, include brand name and core feature</li>
+              <li>Bullet 1: lead with the primary benefit, not a feature</li>
+              <li>Bullets 2 through 5: one idea per bullet, max 500 chars each, mix features and audience signals</li>
+              <li>Validate format in the Field Validator tab before moving on</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Write Long Description + Backend Keywords</div>
+          <div class="step-desc">
+            <ul>
+              <li>Long description: max 2000 characters, HTML-safe, no repeated bullet content</li>
+              <li>Backend keywords: max 250 bytes total, no punctuation, no brand names, no repetition of title terms</li>
+              <li>Use the Term Bank to find secondary and long-tail keywords for the backend field</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Run pre-flight validation</div>
+          <div class="step-desc">Go to the Field Validator tab. Paste each field. All five checks must be green before proceeding.
+            <ul>
+              <li>Title max 200 chars</li>
+              <li>Each bullet max 500 chars</li>
+              <li>Long description max 2000 chars</li>
+              <li>Backend keywords max 250 bytes</li>
+              <li>No bullets starting with special characters</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-step">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-title">Enter in Syndigo / PIM</div>
+          <div class="step-desc">Enter finalized content into Syndigo. Map Syndigo attributes using the Syndigo attribute terms in the Term Bank. Confirm all required fields are populated for each retailer channel.</div>
+        </div>
+      </div>
+      <div class="wizard-step">
+        <div class="step-num">6</div>
+        <div>
+          <div class="step-title">Content QA and publish</div>
+          <div class="step-desc">Final review before publishing:
+            <ul>
+              <li>Read title aloud — does it make sense? Is it grammatical?</li>
+              <li>Confirm Bullet 1 leads with a benefit, not a spec</li>
+              <li>Check that no competitor brand names appear in any field</li>
+              <li>Confirm all images are assigned and in correct sequence</li>
+              <li>Submit for publish in Syndigo once all fields are confirmed green</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="wizard-extension" class="card hidden">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-copy"></i> Extension / Variant — What Changed?</div>
+      <span class="pill pill-purple">Extension</span>
+    </div>
+    <div class="card-body">
+      <p class="text-secondary mb-12" style="font-size:13px;">Select all that changed from the parent item to see targeted guidance:</p>
+      <div class="change-type-grid">
+        <div class="change-chip" onclick="toggleChange('color', this)">Color / Theme</div>
+        <div class="change-chip" onclick="toggleChange('count', this)">Piece Count</div>
+        <div class="change-chip" onclick="toggleChange('image', this)">Box Art / Image</div>
+        <div class="change-chip" onclick="toggleChange('pack', this)">Pack Size / Bundle</div>
+        <div class="change-chip" onclick="toggleChange('pattern', this)">Play Pattern</div>
+        <div class="change-chip" onclick="toggleChange('age', this)">Age Range</div>
+      </div>
+      <div id="ext-guidance"></div>
+      <div id="ext-placeholder" class="inline-alert info">
+        <i class="ti ti-info-circle"></i>
+        <span>Select one or more change types above to see what needs to be updated in the content.</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="wizard-digital" class="card hidden">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-device-laptop"></i> Digital / eContent Update</div>
+      <span class="pill pill-green">Digital</span>
+    </div>
+    <div class="card-body">
+      <div class="guidance-box blue mb-12">
+        <div class="guidance-title">What a digital update covers</div>
+        <ul>
+          <li>Updating Syndigo attributes (Used For, Is A, Capable Of, etc.) without touching the physical listing</li>
+          <li>Refreshing A+ content, enhanced images, or video assets</li>
+          <li>Correcting content already live in a retailer portal via Syndigo sync</li>
+          <li>Updating the product description for a retailer-specific feed</li>
+        </ul>
+      </div>
+      <div class="guidance-box mb-12">
+        <div class="guidance-title">What stays the same vs. physical</div>
+        <ul>
+          <li><strong>Same:</strong> Title, bullets, backend keywords — these are authored once in Amazon Seller Central and flow from there</li>
+          <li><strong>Different:</strong> Syndigo attribute fields, enhanced content, and retailer-specific description blocks are managed in Syndigo and can be updated independently</li>
+          <li><strong>Key rule:</strong> Never update Amazon title or bullets in Syndigo — Syndigo does not write back to Amazon title or bullet fields. Amazon-side content must be changed in Seller Central.</li>
+        </ul>
+      </div>
+      <div class="guidance-box green">
+        <div class="guidance-title">Syndigo attribute checklist</div>
+        <ul>
+          <li>Used For Audience — who is this product for?</li>
+          <li>Used For Event — what occasions or events is it used at?</li>
+          <li>Used For Function — what does it do functionally?</li>
+          <li>Used In Location — where is it used?</li>
+          <li>Capable Of — what outcome does it enable?</li>
+          <li>Is A — what category or type is it? (supports search discovery)</li>
+          <li>Use the Syndigo filter in the Term Bank tab for ready-to-use attribute values</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: FIELD VALIDATOR -->
+<div id="tab-validator" class="tab-content">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-checks"></i> Amazon Field Validator</div>
+      <div id="readiness-pill" class="pill pill-gray">Score: --</div>
+    </div>
+    <div class="card-body">
+      <div class="field-row">
+        <label class="form-label">Title</label>
+        <div class="form-hint">Lead keyword in first 60 chars. No ALL CAPS words. No promotional language.</div>
+        <textarea id="field-title" rows="2" placeholder="Enter product title..." oninput="validateField('title')"></textarea>
+        <div class="field-meta">
+          <span id="status-title" class="char-count char-ok">0 / 200</span>
+          <span id="format-title" class="format-note"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="form-label">Bullet 1 <span class="text-muted" style="font-weight:400;">-- Lead with a benefit</span></label>
+        <textarea id="field-bullet1" rows="2" placeholder="Primary benefit..." oninput="validateField('bullet1')"></textarea>
+        <div class="field-meta">
+          <span id="status-bullet1" class="char-count char-ok">0 / 500</span>
+          <span id="format-bullet1" class="format-note"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="form-label">Bullet 2</label>
+        <textarea id="field-bullet2" rows="2" placeholder="Key feature or differentiator..." oninput="validateField('bullet2')"></textarea>
+        <div class="field-meta">
+          <span id="status-bullet2" class="char-count char-ok">0 / 500</span>
+          <span id="format-bullet2" class="format-note"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="form-label">Bullet 3</label>
+        <textarea id="field-bullet3" rows="2" placeholder="Audience or occasion..." oninput="validateField('bullet3')"></textarea>
+        <div class="field-meta">
+          <span id="status-bullet3" class="char-count char-ok">0 / 500</span>
+          <span id="format-bullet3" class="format-note"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="form-label">Bullet 4</label>
+        <textarea id="field-bullet4" rows="2" placeholder="Secondary feature..." oninput="validateField('bullet4')"></textarea>
+        <div class="field-meta">
+          <span id="status-bullet4" class="char-count char-ok">0 / 500</span>
+          <span id="format-bullet4" class="format-note"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="form-label">Bullet 5</label>
+        <textarea id="field-bullet5" rows="2" placeholder="Gift or occasion signal, or trust statement..." oninput="validateField('bullet5')"></textarea>
+        <div class="field-meta">
+          <span id="status-bullet5" class="char-count char-ok">0 / 500</span>
+          <span id="format-bullet5" class="format-note"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="form-label">Long Description</label>
+        <div class="form-hint">No HTML tags. Do not repeat bullet content verbatim. Expand on benefits, use cases, and brand story.</div>
+        <textarea id="field-desc" rows="5" placeholder="Enter long description..." oninput="validateField('desc')"></textarea>
+        <div class="field-meta">
+          <span id="status-desc" class="char-count char-ok">0 / 2000</span>
+          <span id="format-desc" class="format-note"></span>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="form-label">Backend Keywords</label>
+        <div class="form-hint">Space-separated. No commas, no punctuation. No brand names. No terms already in the title. Max 250 bytes.</div>
+        <textarea id="field-keywords" rows="3" placeholder="jigsaw puzzle 1000 piece adult relaxation gift..." oninput="validateField('keywords')"></textarea>
+        <div class="field-meta">
+          <span id="status-keywords" class="char-count char-ok">0 / 250 bytes</span>
+          <span id="format-keywords" class="format-note"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-clipboard-check"></i> Pre-Flight Check</div>
+      <button class="btn btn-sm btn-outline" onclick="resetValidator()"><i class="ti ti-refresh"></i> Clear all</button>
+    </div>
+    <div class="card-body">
+      <div class="score-display">
+        <span class="score-number" id="score-num">0%</span>
+        <span class="score-label">content readiness</span>
+      </div>
+      <div class="score-bar-wrap"><div class="score-bar" id="score-bar" style="width:0%;background:var(--red)"></div></div>
+      <p class="text-sm text-muted mb-16" style="margin-top:4px;">All checks must pass before submitting to Syndigo / PIM.</p>
+      <div class="preflight-grid" id="preflight-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: TERM BANK -->
+<div id="tab-terms" class="tab-content">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-tag"></i> Search Term Bank</div>
+      <span id="ds-badge" class="data-source-badge ds-seed"><i class="ti ti-database"></i> Seeded</span>
+    </div>
+    <div class="card-body">
+      <p class="text-secondary mb-16" style="font-size:13px;">Click any term to copy it to your clipboard. Filter by market or search. Use these terms in titles, bullets, and backend keyword fields.</p>
+      <div class="term-bank-controls">
+        <div class="term-search">
+          <input type="text" id="term-search" placeholder="Search terms..." oninput="filterTerms()">
+        </div>
+      </div>
+      <div class="market-filter mb-16" id="market-filter">
+        <button class="market-btn active" onclick="setMarket('all', this)">All</button>
+        <button class="market-btn" onclick="setMarket('puzzles', this)">Puzzles</button>
+        <button class="market-btn" onclick="setMarket('preschool', this)">Preschool</button>
+        <button class="market-btn" onclick="setMarket('activities', this)">Activities</button>
+        <button class="market-btn" onclick="setMarket('games', this)">Games</button>
+        <button class="market-btn" onclick="setMarket('recsports', this)">Rec Sports</button>
+        <button class="market-btn" onclick="setMarket('syndigo', this)">Syndigo Attributes</button>
+      </div>
+      <div id="term-count" class="text-sm text-muted mb-8"></div>
+      <div class="term-grid" id="term-grid">
+        <div class="empty-state"><i class="ti ti-loader-2"></i>Loading terms...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: WORKFLOW -->
+<div id="tab-workflow" class="tab-content">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-git-branch"></i> Amazon-First Content Workflow</div>
+    </div>
+    <div class="card-body">
+      <p class="text-secondary mb-16" style="font-size:13px;">The BHC content workflow is Amazon-first by design. Amazon has the most demanding character limits and the highest commercial intent traffic. Content authored to Amazon standards is high-quality enough to adapt downstream.</p>
+      <div>
+        <div class="wf-step">
+          <div class="wf-left"><div class="wf-circle active">1</div><div class="wf-line"></div></div>
+          <div class="wf-body">
+            <div class="wf-title">Gather product inputs <span class="pill pill-blue" style="font-size:11px;">Pre-work</span></div>
+            <div class="wf-desc">Collect all product details before prompting: name, SKU, dimensions, piece count, materials, age range, player count, key differentiators, and 3 to 5 seed keywords.</div>
+            <div class="wf-notes"><ul>
+              <li>Missing inputs produce generic AI output -- garbage in, garbage out</li>
+              <li>Use the Term Bank to select seed keywords for your product's market</li>
+              <li>If the item is an extension, note what changed vs. the parent</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-left"><div class="wf-circle active">2</div><div class="wf-line"></div></div>
+          <div class="wf-body">
+            <div class="wf-title">Draft with AI using the BHC framework <span class="pill pill-blue" style="font-size:11px;">Amazon</span></div>
+            <div class="wf-desc">Paste inputs into the 12-dimension BHC prompt template. Generate title, 5 bullets, long description, and backend keywords in one pass.</div>
+            <div class="wf-notes"><ul>
+              <li>Prompt for Amazon format specifically -- character limits, benefit-first bullets</li>
+              <li>Regenerate individual fields that don't land -- don't accept a full redo</li>
+              <li>The 12 dimensions: Who, What, Where, When, Why, How, Benefit, Feature, Occasion, Trust, Comparison, Brand</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-left"><div class="wf-circle active">3</div><div class="wf-line"></div></div>
+          <div class="wf-body">
+            <div class="wf-title">Validate all fields <span class="pill pill-blue" style="font-size:11px;">Quality gate</span></div>
+            <div class="wf-desc">Run every field through the Field Validator tab. All preflight checks must be green before content moves forward.</div>
+            <div class="wf-notes"><ul>
+              <li>Title max 200 chars, lead keyword front-loaded</li>
+              <li>Bullets max 500 chars each, no special character at start</li>
+              <li>Long description max 2000 chars, no HTML</li>
+              <li>Backend keywords max 250 bytes, no commas, no repetition</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-left"><div class="wf-circle active">4</div><div class="wf-line"></div></div>
+          <div class="wf-body">
+            <div class="wf-title">Enter validated content into Syndigo <span class="pill pill-blue" style="font-size:11px;">PIM</span></div>
+            <div class="wf-desc">Paste finalized Amazon content into Syndigo fields. Map Syndigo-specific attributes (Used For, Is A, Capable Of, etc.) using the Syndigo term bank.</div>
+            <div class="wf-notes"><ul>
+              <li>Syndigo manages retailer syndication to Target, Walmart, Kroger, and others</li>
+              <li>Syndigo does NOT write back to Amazon title or bullet fields</li>
+              <li>Amazon Seller Central is always the source of truth for title and bullets</li>
+              <li>Upload images in correct sequence -- hero shot first, lifestyle second</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-left"><div class="wf-circle active">5</div><div class="wf-line"></div></div>
+          <div class="wf-body">
+            <div class="wf-title">Publish and QA live listing <span class="pill pill-green" style="font-size:11px;">Launch</span></div>
+            <div class="wf-desc">Submit for publish in Syndigo. Verify live on Amazon ~24 to 48 hours after submission. Spot-check character rendering, image load, and bullet formatting.</div>
+            <div class="wf-notes"><ul>
+              <li>Amazon may override certain fields (title suppression, image policy) -- check live vs. submitted</li>
+              <li>Backend keywords are not visible to shoppers -- verify via Seller Central, not the live listing</li>
+              <li>Flag any suppressed or rejected content in the content tracker</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-left"><div class="wf-circle future">6</div></div>
+          <div class="wf-body">
+            <div class="wf-title">Retailer adaptation <span class="pill pill-gray" style="font-size:11px;">Future state</span></div>
+            <div class="wf-desc">Adapt Amazon content for Walmart, Target, and other retailer-specific format requirements.</div>
+            <div class="future-state-note">
+              <strong>Why this is not automated yet:</strong> Amazon content cannot auto-syndicate to other retailers because each retailer has different character limits, field structures, and content policies. Walmart allows HTML in descriptions; Target has different image requirements; Kroger uses a different attribute taxonomy entirely. Until a retailer-specific templating layer is built, adaptation is a manual step. The Syndigo attribute fields (Used For, Is A, etc.) do syndicate -- those are already live. The title, bullet, and description layer requires retailer-specific review.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5: KNOWLEDGE CHECK -->
+<div id="tab-quiz" class="tab-content">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-school"></i> Knowledge Check</div>
+      <span class="text-sm text-muted">7 questions</span>
+    </div>
+    <div class="card-body">
+      <div id="quiz-main">
+        <div class="quiz-progress"><div class="quiz-progress-bar" id="quiz-progress-bar" style="width:0%"></div></div>
+        <div class="quiz-counter" id="quiz-counter">Question 1 of 7</div>
+        <div style="margin-top:14px;" id="quiz-question-area"></div>
+      </div>
+      <div id="quiz-result" class="quiz-result hidden">
+        <div class="result-score" id="result-score-num"></div>
+        <div class="result-label" id="result-label"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn btn-primary" onclick="resetQuiz()"><i class="ti ti-refresh"></i> Retake</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// KEYWORDS DATA SOURCE -- change this URL to connect a live API endpoint
+const KEYWORDS_URL = './keywords.json';
+
+const SEED_DATA = {
+  meta: { version: "1.0", updated: "2026-06-01", source: "Built-in seed", api_endpoint: null },
+  markets: {
+    puzzles: [
+      {term:"jigsaw puzzle",cat:"Type",vol:null},{term:"500-piece puzzle",cat:"Type",vol:null},
+      {term:"1000-piece puzzle",cat:"Type",vol:null},{term:"adult puzzle",cat:"Audience",vol:null},
+      {term:"family puzzle",cat:"Audience",vol:null},{term:"puzzle for seniors",cat:"Audience",vol:null},
+      {term:"mindfulness puzzle",cat:"Benefit",vol:null},{term:"stress relief puzzle",cat:"Benefit",vol:null},
+      {term:"rainy day activity",cat:"Occasion",vol:null},{term:"holiday gift puzzle",cat:"Occasion",vol:null},
+      {term:"precision cut puzzle",cat:"Feature",vol:null},{term:"fine art puzzle",cat:"Feature",vol:null},
+      {term:"nature puzzle",cat:"Theme",vol:null},{term:"landscape puzzle",cat:"Theme",vol:null},
+      {term:"puzzle gift for mom",cat:"Occasion",vol:null},{term:"puzzle for game night",cat:"Occasion",vol:null}
+    ],
+    preschool: [
+      {term:"toddler learning toy",cat:"Type",vol:null},{term:"preschool activity",cat:"Type",vol:null},
+      {term:"educational toy",cat:"Type",vol:null},{term:"ages 3 and up",cat:"Audience",vol:null},
+      {term:"toddler toy",cat:"Audience",vol:null},{term:"teacher approved toy",cat:"Trust",vol:null},
+      {term:"daycare toy",cat:"Audience",vol:null},{term:"fine motor skills toy",cat:"Benefit",vol:null},
+      {term:"color recognition toy",cat:"Benefit",vol:null},{term:"shape sorting toy",cat:"Feature",vol:null},
+      {term:"early learning toy",cat:"Benefit",vol:null},{term:"STEM toy for toddlers",cat:"Category",vol:null},
+      {term:"Montessori toy",cat:"Category",vol:null},{term:"screen free toy",cat:"Benefit",vol:null}
+    ],
+    activities: [
+      {term:"craft kit for kids",cat:"Type",vol:null},{term:"activity kit",cat:"Type",vol:null},
+      {term:"birthday party activity",cat:"Occasion",vol:null},{term:"summer camp craft",cat:"Occasion",vol:null},
+      {term:"classroom activity kit",cat:"Occasion",vol:null},{term:"no mess craft kit",cat:"Feature",vol:null},
+      {term:"DIY kit for kids",cat:"Type",vol:null},{term:"kids art set",cat:"Type",vol:null},
+      {term:"tween activity kit",cat:"Audience",vol:null},{term:"family activity kit",cat:"Audience",vol:null},
+      {term:"creative play kit",cat:"Benefit",vol:null},{term:"screen free activity",cat:"Benefit",vol:null}
+    ],
+    games: [
+      {term:"board game",cat:"Type",vol:null},{term:"card game for adults",cat:"Type",vol:null},
+      {term:"family game night",cat:"Occasion",vol:null},{term:"game for 2 players",cat:"Feature",vol:null},
+      {term:"strategy board game",cat:"Type",vol:null},{term:"party game for adults",cat:"Type",vol:null},
+      {term:"game for ages 8 and up",cat:"Audience",vol:null},{term:"competitive game",cat:"Feature",vol:null},
+      {term:"fast paced game",cat:"Feature",vol:null},{term:"trivia game",cat:"Type",vol:null},
+      {term:"dice game",cat:"Type",vol:null},{term:"tailgate game",cat:"Occasion",vol:null},
+      {term:"game for large groups",cat:"Feature",vol:null}
+    ],
+    recsports: [
+      {term:"outdoor lawn game",cat:"Type",vol:null},{term:"backyard game for adults",cat:"Location",vol:null},
+      {term:"camping game",cat:"Occasion",vol:null},{term:"beach game",cat:"Location",vol:null},
+      {term:"portable outdoor game",cat:"Feature",vol:null},{term:"tailgate game set",cat:"Occasion",vol:null},
+      {term:"outdoor game for adults",cat:"Audience",vol:null},{term:"family outdoor game",cat:"Audience",vol:null},
+      {term:"lawn toss game",cat:"Type",vol:null},{term:"active outdoor play",cat:"Benefit",vol:null},
+      {term:"cornhole alternative",cat:"Comparison",vol:null},{term:"easy setup outdoor game",cat:"Feature",vol:null}
+    ],
+    syndigo: [
+      {term:"Used For Audience",cat:"Attribute",vol:null},{term:"Used For Event",cat:"Attribute",vol:null},
+      {term:"Used For Function",cat:"Attribute",vol:null},{term:"Used In Location",cat:"Attribute",vol:null},
+      {term:"Used With",cat:"Attribute",vol:null},{term:"Used By",cat:"Attribute",vol:null},
+      {term:"Used To",cat:"Attribute",vol:null},{term:"Used As",cat:"Attribute",vol:null},
+      {term:"Is A",cat:"Attribute",vol:null},{term:"Capable Of",cat:"Attribute",vol:null},
+      {term:"(x) Want",cat:"Attribute",vol:null},{term:"(x) Interested In",cat:"Attribute",vol:null},
+      {term:"Used In Body",cat:"Attribute",vol:null},{term:"Used On",cat:"Attribute",vol:null}
+    ]
+  }
+};
+
+let keywordsData = null;
+let activeMarket = 'all';
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadKeywords();
+  renderPreflight();
+  renderQuizQuestion();
+});
+
+async function loadKeywords() {
+  try {
+    const res = await fetch(KEYWORDS_URL, { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    keywordsData = data;
+    updateHeaderMeta(data.meta);
+    document.getElementById('ds-badge').className = 'data-source-badge ds-live';
+    document.getElementById('ds-badge').innerHTML = '<i class="ti ti-database"></i> Live';
+  } catch (e) {
+    keywordsData = SEED_DATA;
+  }
+  renderTerms();
+}
+
+function updateHeaderMeta(meta) {
+  if (!meta) return;
+  if (meta.version) document.getElementById('header-version').textContent = 'v' + meta.version;
+  if (meta.updated) document.getElementById('header-updated').textContent = 'Updated ' + meta.updated;
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function selectProductType(type) {
+  ['new','ext','dig'].forEach(t => document.getElementById('pt-' + t).classList.remove('selected'));
+  ['wizard-new','wizard-extension','wizard-digital'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  const typeMap = { new: 'pt-new', extension: 'pt-ext', digital: 'pt-dig' };
+  const wizMap = { new: 'wizard-new', extension: 'wizard-extension', digital: 'wizard-digital' };
+  document.getElementById(typeMap[type]).classList.add('selected');
+  document.getElementById(wizMap[type]).classList.remove('hidden');
+}
+
+const selectedChanges = new Set();
+const changeGuidance = {
+  color: { title: 'Color / Theme changed', color: 'blue', items: [
+    'Update title to include the new color or theme name',
+    'Revise any bullets that reference color or imagery',
+    'Update hero image and lifestyle shots to match new colorway',
+    'Check that backend keywords include the new color term if it has search volume'
+  ]},
+  count: { title: 'Piece count changed', color: 'blue', items: [
+    'Update title to reflect new piece count (e.g., 500-Piece to 1000-Piece)',
+    'Revise any bullet or description text that references piece count',
+    'Confirm dimensions and weight changes are reflected in product attributes',
+    'Update completion time estimates in description if applicable'
+  ]},
+  image: { title: 'Box art / image changed', color: 'orange', items: [
+    'New hero image required -- upload in correct Amazon image slot',
+    'Update any bullets that describe the artwork or scene',
+    'If the artist or license is new, add that to the trust bullet',
+    'Syndigo image sequence must be re-confirmed after image swap'
+  ]},
+  pack: { title: 'Pack size / bundle changed', color: 'blue', items: [
+    'Title must clearly state pack size (e.g., Pack of 2, Value Bundle)',
+    'Add a bullet explaining the value proposition of the bundle',
+    'Update backend keywords with bundle and multipack terms',
+    'Verify unit pricing is competitive -- bundle SKUs are compared differently by shoppers'
+  ]},
+  pattern: { title: 'Play pattern changed', color: 'orange', items: [
+    'If the core play mechanic changed, treat this closer to a new item than a variant',
+    'Bullet 1 should reflect the new primary benefit enabled by the new play pattern',
+    'Review all 5 bullets -- feature claims may no longer apply',
+    'Update Syndigo Used For Function and Capable Of attributes to match new play pattern'
+  ]},
+  age: { title: 'Age range changed', color: 'blue', items: [
+    'Update title to reflect new age range (e.g., Ages 6+ to Ages 8+)',
+    'Revise audience bullet to match new target age',
+    'Update Syndigo Used For Audience and Used By attributes',
+    'Check safety copy -- age range changes may trigger different warning language requirements'
+  ]}
+};
+
+function toggleChange(type, el) {
+  if (selectedChanges.has(type)) { selectedChanges.delete(type); el.classList.remove('selected'); }
+  else { selectedChanges.add(type); el.classList.add('selected'); }
+  renderExtGuidance();
+}
+
+function renderExtGuidance() {
+  const container = document.getElementById('ext-guidance');
+  const placeholder = document.getElementById('ext-placeholder');
+  if (selectedChanges.size === 0) {
+    container.innerHTML = '';
+    placeholder.classList.remove('hidden');
+    return;
+  }
+  placeholder.classList.add('hidden');
+  container.innerHTML = [...selectedChanges].map(type => {
+    const g = changeGuidance[type];
+    return '<div class="guidance-box ' + g.color + ' mb-12"><div class="guidance-title">' + g.title + '</div><ul>' +
+      g.items.map(i => '<li>' + i + '</li>').join('') + '</ul></div>';
+  }).join('');
+}
+
+const fieldConfig = {
+  title:    { max: 200, label: 'Title', byteMode: false },
+  bullet1:  { max: 500, label: 'Bullet 1', byteMode: false },
+  bullet2:  { max: 500, label: 'Bullet 2', byteMode: false },
+  bullet3:  { max: 500, label: 'Bullet 3', byteMode: false },
+  bullet4:  { max: 500, label: 'Bullet 4', byteMode: false },
+  bullet5:  { max: 500, label: 'Bullet 5', byteMode: false },
+  desc:     { max: 2000, label: 'Long Description', byteMode: false },
+  keywords: { max: 250, label: 'Backend Keywords', byteMode: true }
+};
+
+function byteLength(str) { return new TextEncoder().encode(str).length; }
+
+function validateField(key) {
+  const cfg = fieldConfig[key];
+  const el = document.getElementById('field-' + key);
+  const statusEl = document.getElementById('status-' + key);
+  const formatEl = document.getElementById('format-' + key);
+  const val = el.value;
+  const len = cfg.byteMode ? byteLength(val) : val.length;
+  const label = cfg.byteMode ? len + ' / ' + cfg.max + ' bytes' : len + ' / ' + cfg.max;
+  let cls = 'char-ok';
+  if (len > cfg.max) cls = 'char-over';
+  else if (len > cfg.max * 0.9) cls = 'char-warn';
+  statusEl.textContent = label;
+  statusEl.className = 'char-count ' + cls;
+  if (key.startsWith('bullet') && val.trim().length > 0) {
+    if (/^[\*\!\@\#\$\%\^\&\(\)\[\]\{\}\|\\\/\<\>]+/.test(val.trim())) {
+      formatEl.innerHTML = '<span style="color:var(--red)">Starts with special character -- Amazon may suppress</span>';
+    } else {
+      formatEl.innerHTML = '<span style="color:var(--green)">Format OK</span>';
+    }
+  } else if (key === 'keywords' && val.trim().length > 0) {
+    formatEl.innerHTML = /,/.test(val)
+      ? '<span style="color:var(--red)">Remove commas -- use spaces only</span>'
+      : '<span style="color:var(--green)">Format OK</span>';
+  } else if (key === 'title' && val.trim().length > 0) {
+    formatEl.innerHTML = /[A-Z]{4,}/.test(val)
+      ? '<span style="color:var(--yellow)">Avoid ALL CAPS words</span>' : '';
+  } else {
+    formatEl.innerHTML = '';
+  }
+  renderPreflight();
+}
+
+function preflightChecks() {
+  return Object.keys(fieldConfig).map(key => {
+    const cfg = fieldConfig[key];
+    const el = document.getElementById('field-' + key);
+    const val = el ? el.value : '';
+    const len = cfg.byteMode ? byteLength(val) : val.length;
+    let pass = len <= cfg.max;
+    if (key.startsWith('bullet') && val.trim().length > 0 && /^[\*\!\@\#\$\%\^\&\(\)\[\]\{\}\|\\\/\<\>]+/.test(val.trim())) pass = false;
+    if (key === 'keywords' && /,/.test(val)) pass = false;
+    return { key, label: cfg.label, pass, empty: val.trim().length === 0 };
+  });
+}
+
+function renderPreflight() {
+  const checks = preflightChecks();
+  const grid = document.getElementById('preflight-grid');
+  grid.innerHTML = checks.map(c => {
+    const cls = c.empty ? '' : (c.pass ? 'pass' : 'fail');
+    const icon = c.empty ? 'ti-minus' : (c.pass ? 'ti-check' : 'ti-x');
+    const dotCls = c.empty ? 'dot-gray' : (c.pass ? 'dot-green' : 'dot-red');
+    const iconColor = c.empty ? 'var(--text-muted)' : (c.pass ? 'var(--green)' : 'var(--red)');
+    return '<div class="preflight-item ' + cls + '">' +
+      '<span class="status-dot ' + dotCls + '"></span>' +
+      '<span class="preflight-label">' + c.label + '</span>' +
+      '<i class="ti ' + icon + '" style="font-size:14px;color:' + iconColor + '"></i></div>';
+  }).join('');
+  const total = checks.length;
+  const passing = checks.filter(c => !c.empty && c.pass).length;
+  const score = total > 0 ? Math.round((passing / total) * 100) : 0;
+  document.getElementById('score-num').textContent = score + '%';
+  const bar = document.getElementById('score-bar');
+  bar.style.width = score + '%';
+  bar.style.background = score >= 80 ? 'var(--green)' : score >= 50 ? 'var(--yellow)' : 'var(--red)';
+  const pill = document.getElementById('readiness-pill');
+  pill.textContent = 'Score: ' + score + '%';
+  pill.className = 'pill ' + (score >= 80 ? 'pill-green' : score >= 50 ? 'pill-yellow' : 'pill-red');
+}
+
+function resetValidator() {
+  Object.keys(fieldConfig).forEach(key => {
+    const el = document.getElementById('field-' + key);
+    if (el) el.value = '';
+    const cfg = fieldConfig[key];
+    const statusEl = document.getElementById('status-' + key);
+    if (statusEl) { statusEl.textContent = cfg.byteMode ? '0 / ' + cfg.max + ' bytes' : '0 / ' + cfg.max; statusEl.className = 'char-count char-ok'; }
+    const formatEl = document.getElementById('format-' + key);
+    if (formatEl) formatEl.innerHTML = '';
+  });
+  renderPreflight();
+}
+
+function setMarket(market, btn) {
+  activeMarket = market;
+  document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterTerms();
+}
+
+function getAllTerms() {
+  if (!keywordsData) return [];
+  const all = [];
+  Object.entries(keywordsData.markets).forEach(([market, terms]) => {
+    terms.forEach(t => all.push(Object.assign({}, t, { market })));
+  });
+  return all;
+}
+
+function filterTerms() {
+  const query = (document.getElementById('term-search').value || '').toLowerCase().trim();
+  let terms = getAllTerms();
+  if (activeMarket !== 'all') terms = terms.filter(t => t.market === activeMarket);
+  if (query) terms = terms.filter(t => t.term.toLowerCase().includes(query) || t.cat.toLowerCase().includes(query));
+  const hasVol = terms.some(t => t.vol !== null && t.vol !== undefined);
+  if (hasVol) terms.sort((a, b) => (b.vol || 0) - (a.vol || 0));
+  renderTermGrid(terms);
+}
+
+function renderTerms() { filterTerms(); }
+
+function renderTermGrid(terms) {
+  const grid = document.getElementById('term-grid');
+  const countEl = document.getElementById('term-count');
+  countEl.textContent = terms.length + ' term' + (terms.length !== 1 ? 's' : '');
+  if (terms.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><i class="ti ti-search-off"></i>No terms match your search.</div>';
+    return;
+  }
+  grid.innerHTML = terms.map(t => {
+    const safeTerm = t.term.replace(/'/g, "\\'");
+    const volHtml = (t.vol !== null && t.vol !== undefined) ? '<span class="vol-badge">' + Number(t.vol).toLocaleString() + '</span>' : '';
+    return '<span class="term-chip" onclick="copyTerm(this, \'' + safeTerm + '\')">' +
+      t.term + '<span class="cat-badge">' + t.cat + '</span>' + volHtml + '</span>';
+  }).join('');
+}
+
+function copyTerm(el, term) {
+  navigator.clipboard.writeText(term).then(() => {
+    el.classList.add('copied');
+    showToast('Copied: ' + term);
+    setTimeout(() => el.classList.remove('copied'), 1200);
+  }).catch(() => showToast('Copy failed -- select and copy the term manually'));
+}
+
+const QUIZ_QUESTIONS = [
+  {
+    q: "What is the maximum character limit for an Amazon product title?",
+    options: ["100 characters", "150 characters", "200 characters", "250 characters"],
+    correct: 2,
+    feedback: "Amazon allows up to 200 characters for product titles. Best practice is to front-load your primary keyword in the first 60 characters."
+  },
+  {
+    q: "What is the maximum size for Amazon backend (search) keywords?",
+    options: ["200 characters", "250 bytes", "500 characters", "1000 bytes"],
+    correct: 1,
+    feedback: "Backend keywords are limited to 250 bytes -- not characters. Multi-byte characters count as more than 1 byte each."
+  },
+  {
+    q: "Why does the BHC content workflow start with Amazon, not other retailers?",
+    options: [
+      "Amazon pays higher margins",
+      "Amazon has the most demanding format requirements and highest commercial intent traffic",
+      "Syndigo requires Amazon content first",
+      "Amazon content automatically syndicates to all other retailers"
+    ],
+    correct: 1,
+    feedback: "Amazon-first because it has the most stringent character limits and highest commercial search intent. Content that passes Amazon's bar is high enough quality to adapt downstream."
+  },
+  {
+    q: "Which of the following is TRUE about Syndigo and Amazon content?",
+    options: [
+      "Syndigo writes title and bullet changes back to Amazon automatically",
+      "Syndigo manages all retailer channels including Amazon",
+      "Syndigo syndicates content to retailers like Target and Walmart but does NOT write back to Amazon title or bullet fields",
+      "Amazon and Syndigo share the same content database"
+    ],
+    correct: 2,
+    feedback: "Syndigo syndicates to Walmart, Target, Kroger, and other retailers. However, Amazon title and bullet fields must be changed directly in Amazon Seller Central -- Syndigo cannot update those fields."
+  },
+  {
+    q: "For a product extension where only the color changed, which fields most likely need updating?",
+    options: [
+      "Backend keywords only",
+      "Title, color-related bullets, and hero image",
+      "Long description only",
+      "All fields must be completely rewritten"
+    ],
+    correct: 1,
+    feedback: "A color change typically requires updating the title (to name the new color), any bullets that reference color or artwork, and the hero/lifestyle images. Backend keywords may also need the new color term added."
+  },
+  {
+    q: "What does the BHC 12-dimension framework help ensure?",
+    options: [
+      "That all content is exactly 200 characters",
+      "That AI-generated content covers the key angles shoppers search and Amazon's algorithm rewards",
+      "That products are priced correctly",
+      "That Syndigo attribute fields are never empty"
+    ],
+    correct: 1,
+    feedback: "The 12 dimensions (Who, What, Where, When, Why, How, Benefit, Feature, Occasion, Trust, Comparison, Brand) ensure AI-generated content is comprehensive, keyword-rich, and shopper-relevant."
+  },
+  {
+    q: "Bullet 1 on an Amazon listing should lead with:",
+    options: [
+      "The product SKU and dimensions",
+      "A promotional offer or discount",
+      "The primary benefit the customer will experience",
+      "The brand name and product line"
+    ],
+    correct: 2,
+    feedback: "Bullet 1 should lead with the primary benefit -- the outcome or experience the customer gets. Feature-first bullets underperform because shoppers scan for 'what is in it for me' before caring about specs."
+  }
+];
+
+let quizState = { current: 0, answered: false, score: 0 };
+
+function renderQuizQuestion() {
+  const q = QUIZ_QUESTIONS[quizState.current];
+  const total = QUIZ_QUESTIONS.length;
+  document.getElementById('quiz-counter').textContent = 'Question ' + (quizState.current + 1) + ' of ' + total;
+  document.getElementById('quiz-progress-bar').style.width = ((quizState.current / total) * 100) + '%';
+  const isLast = quizState.current >= total - 1;
+  document.getElementById('quiz-question-area').innerHTML =
+    '<div class="quiz-question">' + q.q + '</div>' +
+    '<div class="quiz-options">' +
+    q.options.map((opt, i) => '<div class="quiz-option" id="qopt-' + i + '" onclick="answerQuiz(' + i + ')">' + opt + '</div>').join('') +
+    '</div>' +
+    '<div class="quiz-feedback" id="quiz-feedback"></div>' +
+    '<div class="quiz-nav"><button class="btn btn-primary hidden" id="quiz-next-btn" onclick="nextQuestion()">' +
+    (isLast ? 'See results <i class="ti ti-trophy"></i>' : 'Next question <i class="ti ti-arrow-right"></i>') +
+    '</button></div>';
+  quizState.answered = false;
+}
+
+function answerQuiz(selected) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+  const q = QUIZ_QUESTIONS[quizState.current];
+  const correct = selected === q.correct;
+  if (correct) quizState.score++;
+  document.querySelectorAll('.quiz-option').forEach((el, i) => {
+    el.classList.add('disabled');
+    if (i === q.correct) el.classList.add('correct');
+    if (i === selected && !correct) el.classList.add('incorrect');
+  });
+  const fb = document.getElementById('quiz-feedback');
+  fb.textContent = (correct ? 'Correct! ' : 'Not quite. ') + q.feedback;
+  fb.className = 'quiz-feedback show ' + (correct ? 'correct' : 'incorrect');
+  document.getElementById('quiz-next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  if (quizState.current < QUIZ_QUESTIONS.length - 1) { quizState.current++; renderQuizQuestion(); }
+  else showQuizResult();
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-progress-bar').style.width = '100%';
+  document.getElementById('quiz-main').classList.add('hidden');
+  const result = document.getElementById('quiz-result');
+  result.classList.remove('hidden');
+  const score = quizState.score;
+  const total = QUIZ_QUESTIONS.length;
+  const pct = Math.round((score / total) * 100);
+  document.getElementById('result-score-num').textContent = score + '/' + total;
+  let label, msg;
+  if (pct === 100) { label = 'Perfect score'; msg = 'You have a thorough command of the BHC content framework. Share this tool with the rest of the team.'; }
+  else if (pct >= 70) { label = 'Strong understanding'; msg = 'You know the framework well. Review any questions you missed and revisit the Workflow and Intake Wizard tabs.'; }
+  else if (pct >= 50) { label = 'Getting there'; msg = 'Good start. Spend time in the Workflow tab and re-read the step-by-step guidance in the Intake Wizard.'; }
+  else { label = 'Keep learning'; msg = 'Review the Workflow and Intake Wizard tabs, then try again. The framework takes a few passes to internalize.'; }
+  document.getElementById('result-label').textContent = label;
+  document.getElementById('result-msg').textContent = msg;
+}
+
+function resetQuiz() {
+  quizState = { current: 0, answered: false, score: 0 };
+  document.getElementById('quiz-main').classList.remove('hidden');
+  document.getElementById('quiz-result').classList.add('hidden');
+  renderQuizQuestion();
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>

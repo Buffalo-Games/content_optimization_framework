@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "version": "1.0",
+    "updated": "2026-06-01",
+    "source": "Seeded — update with Helium10 / BigQuery exports",
+    "api_endpoint": null
+  },
+  "markets": {
+    "puzzles": [
+      {"term": "jigsaw puzzle", "cat": "Type", "vol": null},
+      {"term": "500-piece puzzle", "cat": "Type", "vol": null},
+      {"term": "1000-piece puzzle", "cat": "Type", "vol": null},
+      {"term": "adult puzzle", "cat": "Audience", "vol": null},
+      {"term": "family puzzle", "cat": "Audience", "vol": null},
+      {"term": "puzzle for seniors", "cat": "Audience", "vol": null},
+      {"term": "mindfulness puzzle", "cat": "Benefit", "vol": null},
+      {"term": "stress relief puzzle", "cat": "Benefit", "vol": null},
+      {"term": "rainy day activity", "cat": "Occasion", "vol": null},
+      {"term": "holiday gift puzzle", "cat": "Occasion", "vol": null},
+      {"term": "precision cut puzzle", "cat": "Feature", "vol": null},
+      {"term": "fine art puzzle", "cat": "Feature", "vol": null},
+      {"term": "nature puzzle", "cat": "Theme", "vol": null},
+      {"term": "landscape puzzle", "cat": "Theme", "vol": null},
+      {"term": "puzzle gift for mom", "cat": "Occasion", "vol": null},
+      {"term": "puzzle for game night", "cat": "Occasion", "vol": null}
+    ],
+    "preschool": [
+      {"term": "toddler learning toy", "cat": "Type", "vol": null},
+      {"term": "preschool activity", "cat": "Type", "vol": null},
+      {"term": "educational toy", "cat": "Type", "vol": null},
+      {"term": "ages 3 and up", "cat": "Audience", "vol": null},
+      {"term": "toddler toy", "cat": "Audience", "vol": null},
+      {"term": "teacher approved toy", "cat": "Trust", "vol": null},
+      {"term": "daycare toy", "cat": "Audience", "vol": null},
+      {"term": "fine motor skills toy", "cat": "Benefit", "vol": null},
+      {"term": "color recognition toy", "cat": "Benefit", "vol": null},
+      {"term": "shape sorting toy", "cat": "Feature", "vol": null},
+      {"term": "early learning toy", "cat": "Benefit", "vol": null},
+      {"term": "STEM toy for toddlers", "cat": "Category", "vol": null},
+      {"term": "Montessori toy", "cat": "Category", "vol": null},
+      {"term": "screen free toy", "cat": "Benefit", "vol": null}
+    ],
+    "activities": [
+      {"term": "craft kit for kids", "cat": "Type", "vol": null},
+      {"term": "activity kit", "cat": "Type", "vol": null},
+      {"term": "birthday party activity", "cat": "Occasion", "vol": null},
+      {"term": "summer camp craft", "cat": "Occasion", "vol": null},
+      {"term": "classroom activity kit", "cat": "Occasion", "vol": null},
+      {"term": "no mess craft kit", "cat": "Feature", "vol": null},
+      {"term": "DIY kit for kids", "cat": "Type", "vol": null},
+      {"term": "kids art set", "cat": "Type", "vol": null},
+      {"term": "tween activity kit", "cat": "Audience", "vol": null},
+      {"term": "family activity kit", "cat": "Audience", "vol": null},
+      {"term": "creative play kit", "cat": "Benefit", "vol": null},
+      {"term": "screen free activity", "cat": "Benefit", "vol": null}
+    ],
+    "games": [
+      {"term": "board game", "cat": "Type", "vol": null},
+      {"term": "card game for adults", "cat": "Type", "vol": null},
+      {"term": "family game night", "cat": "Occasion", "vol": null},
+      {"term": "game for 2 players", "cat": "Feature", "vol": null},
+      {"term": "strategy board game", "cat": "Type", "vol": null},
+      {"term": "party game for adults", "cat": "Type", "vol": null},
+      {"term": "game for ages 8 and up", "cat": "Audience", "vol": null},
+      {"term": "competitive game", "cat": "Feature", "vol": null},
+      {"term": "fast paced game", "cat": "Feature", "vol": null},
+      {"term": "trivia game", "cat": "Type", "vol": null},
+      {"term": "dice game", "cat": "Type", "vol": null},
+      {"term": "tailgate game", "cat": "Occasion", "vol": null},
+      {"term": "game for large groups", "cat": "Feature", "vol": null}
+    ],
+    "recsports": [
+      {"term": "outdoor lawn game", "cat": "Type", "vol": null},
+      {"term": "backyard game for adults", "cat": "Location", "vol": null},
+      {"term": "camping game", "cat": "Occasion", "vol": null},
+      {"term": "beach game", "cat": "Location", "vol": null},
+      {"term": "portable outdoor game", "cat": "Feature", "vol": null},
+      {"term": "tailgate game set", "cat": "Occasion", "vol": null},
+      {"term": "outdoor game for adults", "cat": "Audience", "vol": null},
+      {"term": "family outdoor game", "cat": "Audience", "vol": null},
+      {"term": "lawn toss game", "cat": "Type", "vol": null},
+      {"term": "active outdoor play", "cat": "Benefit", "vol": null},
+      {"term": "cornhole alternative", "cat": "Comparison", "vol": null},
+      {"term": "easy setup outdoor game", "cat": "Feature", "vol": null}
+    ],
+    "syndigo": [
+      {"term": "Used For Audience", "cat": "Attribute", "vol": null},
+      {"term": "Used For Event", "cat": "Attribute", "vol": null},
+      {"term": "Used For Function", "cat": "Attribute", "vol": null},
+      {"term": "Used In Location", "cat": "Attribute", "vol": null},
+      {"term": "Used With", "cat": "Attribute", "vol": null},
+      {"term": "Used By", "cat": "Attribute", "vol": null},
+      {"term": "Used To", "cat": "Attribute", "vol": null},
+      {"term": "Used As", "cat": "Attribute", "vol": null},
+      {"term": "Is A", "cat": "Attribute", "vol": null},
+      {"term": "Capable Of", "cat": "Attribute", "vol": null},
+      {"term": "(x) Want", "cat": "Attribute", "vol": null},
+      {"term": "(x) Interested In", "cat": "Attribute", "vol": null},
+      {"term": "Used In Body", "cat": "Attribute", "vol": null},
+      {"term": "Used On", "cat": "Attribute", "vol": null}
+    ]
+  }
+}
